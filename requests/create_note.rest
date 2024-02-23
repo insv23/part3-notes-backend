@@ -22,3 +22,13 @@ Content-Type: application/json
 {
     "content": "Elit officia adipisicing dolore fugiat in."
 }
+
+### Content is less than 5 characters
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "Do",
+    "important": true
+}
+
