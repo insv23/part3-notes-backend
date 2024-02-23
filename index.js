@@ -1,29 +1,12 @@
+require("dotenv").config({ path: "./.env.local" });
 const express = require("express");
+const app = express();
 const cors = require("cors");
 
-const app = express();
+const Note = require("./models/note");
 
-app.use(express.static('dist'))
 app.use(cors());
 app.use(express.json());
-
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
 
 app.delete("/api/notes/:id", (request, response) => {
   const id = Number(request.params.id);
@@ -37,47 +20,47 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/notes", (request, response) => {
-  response.json(notes);
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
 });
 
 app.get("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const note = notes.find((note) => note.id === id);
-
-  if (note) {
-    response.json(note);
-  } else {
-    response.statusMessage = "id not found";
-    response.status(404).end();
-  }
+  Note.findById(request.params.id)
+    .then((note) => {
+      if (note) {
+        response.json(note);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      response.status(500).end();
+    });
 });
-
-const generateId = () => {
-  const maxID = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
-  return maxID + 1;
-};
 
 app.post("/api/notes", (request, response) => {
   const body = request.body;
 
-  if (!body.content) {
+  if (body.content === undefined) {
     return response.status(400).json({
       error: "content missing",
     });
   }
 
-  const note = {
+  const note = new Note({
     content: body.content,
-    important: Boolean(body.important) || false,
-    id: generateId(),
-  };
+    // important: Boolean(body.important) || false,
+    important: body.important || false,
+  });
 
-  notes = notes.concat(note);
-
-  response.json(note);
+  note.save().then((savedNote) => {
+    response.json(savedNote);
+  });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

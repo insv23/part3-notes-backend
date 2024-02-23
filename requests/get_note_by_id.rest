@@ -1,0 +1,8 @@
+### Normal
+GET http://localhost:3001/api/notes/65d735a1d951b53e313a4b3a
+
+### Wrong id (404)
+GET http://localhost:3001/api/notes/613f3e3e3e3e3e3e3e3e3e3e
+
+### Illegal id (500)
+GET http://localhost:3001/api/notes/1

@@ -1,0 +1,24 @@
+### Noromal
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "Dolor ipsum commodo voluptate duis nulla dolore nisi mollit cupidatat reprehenderit nostrud ea do est.",
+    "important": true
+}
+
+### Missing content
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "important": true
+}
+
+### Missing important
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "Elit officia adipisicing dolore fugiat in."
+}
