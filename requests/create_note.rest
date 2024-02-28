@@ -1,6 +1,7 @@
 ### Noromal
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RVc2VyIiwiaWQiOiI2NWRkYWM4MTNjM2M3YmMwNTYyMTBjNTIiLCJpYXQiOjE3MDkwNDExMzF9.BItUOlM2pUaWPFyeyMxJisImTKbC9JZpU5_oNPbVUhs
 
 {
     "content": "Dolor ipsum commodo voluptate duis nulla dolore nisi mollit cupidatat reprehenderit nostrud ea do est.",
